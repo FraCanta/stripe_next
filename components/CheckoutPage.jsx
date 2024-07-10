@@ -47,7 +47,7 @@ const CheckoutPage = ({ amount }) => {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `https://stripe-next-azure.vercel.app/?amount=${amount}`,
+        return_url: `https://stripe-next-azure.vercel.app/payment-success?amount=${amount}`,
       },
     });
 
