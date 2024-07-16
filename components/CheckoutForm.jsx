@@ -5,9 +5,11 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 
-export default function CheckoutForm() {
+export default function CheckoutForm({ amount }) {
   const stripe = useStripe();
   const elements = useElements();
+
+  const [email, setEmail] = React.useState("");
 
   const [message, setMessage] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -58,7 +60,8 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
+        return_url: "http://localhost:3000/payment-success?amount=${amount}",
+        receipt_email: email,
       },
     });
 
@@ -81,19 +84,24 @@ export default function CheckoutForm() {
   };
 
   return (
-    <form
-      id="payment-form"
-      onSubmit={handleSubmit}
-      className="p-6 bg-white rounded-md"
-    >
+    <form id="payment-form" onSubmit={handleSubmit}>
+      <input
+        id="email"
+        type="text"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Enter email address"
+        className="text-black"
+      />
+
       <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button
-        disabled={isLoading || !stripe || !elements}
-        id="submit"
-        className="w-full p-5 mt-2 font-bold text-white bg-black rounded-md disabled:opacity-50 disabled:animate-pulse"
-      >
+      <button disabled={isLoading || !stripe || !elements} id="submit">
         <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+          {isLoading ? (
+            <div className="spinner" id="spinner"></div>
+          ) : (
+            `Pay €${amount}`
+          )}
         </span>
       </button>
       {/* Show any error or success messages */}

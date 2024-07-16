@@ -14,7 +14,9 @@ const CheckoutPage = ({ amount }) => {
   const [errorMessage, setErrorMessage] = useState();
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
 
+  const [message, setMessage] = useState(null);
   useEffect(() => {
     fetch("/api/create-payment-intent", {
       method: "POST",
@@ -80,16 +82,27 @@ const CheckoutPage = ({ amount }) => {
 
   return (
     <form onSubmit={handleSubmit} className="p-2 bg-white rounded-md">
-      {clientSecret && <PaymentElement />}
-
       {errorMessage && <div>{errorMessage}</div>}
+      <form id="payment-form" onSubmit={handleSubmit}>
+        <input
+          id="email"
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter email address"
+          className="text-black"
+        />
 
-      <button
-        disabled={!stripe || loading}
-        className="w-full p-5 mt-2 font-bold text-white bg-black rounded-md disabled:opacity-50 disabled:animate-pulse"
-      >
-        {!loading ? `Pay €${amount}` : "Processing..."}
-      </button>
+        {clientSecret && <PaymentElement />}
+        <button
+          disabled={!stripe || loading}
+          className="w-full p-5 mt-2 font-bold text-white bg-black rounded-md disabled:opacity-50 disabled:animate-pulse"
+        >
+          {!loading ? `Pay €${amount}` : "Processing..."}
+        </button>
+        {/* Show any error or success messages */}
+        {message && <div id="payment-message">{message}</div>}
+      </form>
     </form>
   );
 };
