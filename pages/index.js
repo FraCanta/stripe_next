@@ -14,27 +14,28 @@ export default function Home() {
   const amount = 19.99;
 
   return (
-    <main className="max-w-6xl p-10 m-10 mx-auto text-center text-white border rounded-md bg-gradient-to-tr from-blue-500 to-purple-500">
-      <div className="mb-10">
-        <h1 className="mb-2 text-4xl font-extrabold">Giorgio</h1>
-        <h2 className="text-2xl">
-          ha richiesto
-          <span className="font-bold"> €{amount}</span>
-        </h2>
-      </div>
+    <>
+      <main className="max-w-6xl p-10 m-10 mx-auto text-center text-white border rounded-md bg-gradient-to-tr from-blue-500 to-purple-500">
+        <div className="mb-10">
+          <h1 className="mb-2 text-4xl font-extrabold">Giorgio</h1>
+          <h2 className="text-2xl">
+            ha richiesto
+            <span className="font-bold"> €{amount}</span>
+          </h2>
+        </div>
 
-      <Elements
-        stripe={stripePromise}
-        options={{
-          mode: "payment",
-          amount: convertToSubcurrency(amount),
-          currency: "eur",
-        }}
-      >
-        <CheckoutPage amount={amount} />
-      </Elements>
-
+        <Elements
+          stripe={stripePromise}
+          options={{
+            mode: "payment",
+            amount: convertToSubcurrency(amount),
+            currency: "eur",
+          }}
+        >
+          <CheckoutPage amount={amount} />
+        </Elements>
+      </main>
       <Link href="/prenotazione">Link a pagina</Link>
-    </main>
+    </>
   );
 }
