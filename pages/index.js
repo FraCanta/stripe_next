@@ -4,6 +4,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import convertToSubcurrency from "../lib/covertToSubcurrency";
 import CheckoutForm from "../components/CheckoutForm";
 import CheckoutPage from "@/components/CheckoutPage";
+import Link from "next/link";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -32,6 +33,8 @@ export default function Home() {
       >
         <CheckoutPage amount={amount} />
       </Elements>
+
+      <Link href="/prenotazione">Link a pagina</Link>
     </main>
   );
 }
